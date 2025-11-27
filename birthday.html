@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>រីករាយថ្ងៃកំណើត កែវ រតនៈ!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --primary-color: #ff69b4;
+            /* Hot pink */
+            --secondary-color: #ffd700;
+            /* Gold */
+            --text-color: #333;
+            --background-gradient-start: #ffebf7;
+            --background-gradient-end: #ffe0f0;
+            --confetti-color-1: #ff69b4;
+            --confetti-color-2: #ffd700;
+            --confetti-color-3: #90ee90;
+            --confetti-color-4: #87ceeb;
+        }
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Hanuman', serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, var(--background-gradient-start), var(--background-gradient-end));
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            width: 100%;
+        }
+        
+        header {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: bounceIn 1s ease-out forwards;
+        }
+        
+        header p {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+        }
+        
+        main {
+            flex-grow: 1;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .birthday-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 2rem;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideInUp 1s ease-out 1s forwards;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid var(--secondary-color);
+        }
+        
+        .birthday-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle at top left, var(--secondary-color) 0%, transparent 20%), radial-gradient(circle at bottom right, var(--primary-color) 0%, transparent 20%);
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .birthday-card h2 {
+            color: var(--primary-color);
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .birthday-card h2::after {
+            content: '🎂';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+        
+        .birthday-card p {
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .birthday-card .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .message {
+            margin-top: 2rem;
+            font-style: italic;
+            color: #777;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #fff;
+            background: var(--primary-color);
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+        }
+        /* Confetti Animation */
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--confetti-color-1);
+            top: -10px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fall 5s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .confetti:nth-child(2n) {
+            background-color: var(--confetti-color-2);
+            border-radius: 0;
+        }
+        
+        .confetti:nth-child(3n) {
+            background-color: var(--confetti-color-3);
+        }
+        
+        .confetti:nth-child(4n) {
+            background-color: var(--confetti-color-4);
+            border-radius: 0;
+        }
+        
+        .confetti:nth-child(5n) {
+            background-color: var(--confetti-color-1);
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotateZ(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotateZ(720deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInUp {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>រីករាយថ្ងៃកំណើត!</h1>
+            <p>ជូនចំពោះមិត្តសម្លាញ់ កែវ រតនៈ</p>
+            <div class="confetti" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="confetti" style="left: 20%; animation-delay: 1s;"></div>
+            <div class="confetti" style="left: 30%; animation-delay: 2s;"></div>
+            <div class="confetti" style="left: 40%; animation-delay: 0.5s;"></div>
+            <div class="confetti" style="left: 50%; animation-delay: 1.5s;"></div>
+            <div class="confetti" style="left: 60%; animation-delay: 2.5s;"></div>
+            <div class="confetti" style="left: 70%; animation-delay: 0.8s;"></div>
+            <div class="confetti" style="left: 80%; animation-delay: 1.8s;"></div>
+            <div class="confetti" style="left: 90%; animation-delay: 2.8s;"></div>
+        </div>
+    </header>
+
+    <main>
+        <section class="birthday-card" aria-labelledby="birthday-heading">
+            <h2 id="birthday-heading">ជូនពរថ្ងៃខួបកំណើត!</h2>
+            <p>រីករាយថ្ងៃកំណើតគម្រប់អាយុ <span class="highlight">១៦ ឆ្នាំ</span> ជូនចំពោះមិត្តសម្លាញ់ <span class="highlight">កែវ រតនៈ</span>!</p>
+            <p>ថ្ងៃនេះ<span class="highlight">២៧ ខែវិច្ឆិកា ឆ្នាំ ២០២៥</span>។</p>
+            <p>សូមឱ្យសម្លាញ់មានសេចក្ដីសុខ និងអាយុវែង។</p>
+            <p>សូមជូនពរឱ្យអ្នកជួបតែសេចក្តីសុខ សំណាងល្អ និងសម្រេចបានគ្រប់បំណងប្រាថ្នា!</p>
+            <p class="message">ពីមិត្តសម្លាញ់របស់អ្នក!</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; ២០២៥ ថ្ងៃកំណើតដ៏ពិសេស។ រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+        </div>
+    </footer>
+
+    <script>
+        // Confetti generation script for more dynamic confetti
+        function createConfetti() {
+            const confettiCount = 50;
+            const colors = ['var(--confetti-color-1)', 'var(--confetti-color-2)', 'var(--confetti-color-3)', 'var(--confetti-color-4)'];
+            const header = document.querySelector('header');
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                if (Math.random() < 0.5) confetti.style.borderRadius = '0'; // Some square confetti
+                header.appendChild(confetti);
+            }
+        }
+        createConfetti();
+    </script>
+</body>
+
+</html>
